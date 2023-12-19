@@ -1340,6 +1340,15 @@
         "front": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/150.png",
         "back": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/150.png"
       }
+    },
+    {
+      "name": "Test",
+      "hp": "100500",
+      "sprites": {
+        "front": "front-url",
+        "back": "back-url"
+      },
+      "id": 151
     }
   ]
 }
