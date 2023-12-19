@@ -1,47 +1,45 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import PokemonCollection from "./PokemonCollection";
 import PokemonForm from "./PokemonForm";
 import Search from "./Search";
 import { Container } from "semantic-ui-react";
 
 function PokemonPage() {
-  const url = "http://localhost:3001/pokemon"
-  const [pokemonsArray, setPokemonsArray] = useState([])
-  const [searchPokemonsArray, setSearchPokemonsArray] = useState([])
 
-  console.log("pokemonsArray ", pokemonsArray)
+  const [ pokemon, setPokemon ] = useState([])
+  const [ searchTerm, setSearchTerm ] = useState("")
 
   useEffect(() => {
-    fetch(url)
-    .then(res => res.json())
-    .then(setPokemonsArray) // .then(data => setPokemonsArray(data))
-  }, [])
+    fetch("http://localhost:3001/pokemon")
+      .then(response => response.json())
+      .then(pokemonArr => setPokemon(pokemonArr))
+  },[])
 
-  useEffect(() => {
-    fetch(url)
-    .then(res => res.json())
-    .then(setSearchPokemonsArray) // .then(data => setPokemonsArray(data))
-  }, [])
+  //console.log(pokemon) //[]
 
-  // console.log(pokemonsArray)
+  const onHandleChange = (e) => {
+    setSearchTerm(e.target.value)
+  }
+
+  const searchedPokemonArr = pokemon.filter((onePoke) => {
+    return onePoke.name.toLowerCase().includes(searchTerm.toLowerCase())
+  }) //"", 0, false 
+
+  console.log(searchedPokemonArr)
+
+  const onSubmitNewPokemon = (newlyAddedPokemon) => {
+    setPokemon([...pokemon, newlyAddedPokemon])
+  }
+
   return (
     <Container>
       <h1>Pokemon Searcher</h1>
       <br />
-      <PokemonForm 
-      pokemonsArray={pokemonsArray}
-      setPokemonsArray={setPokemonsArray}
-      />
+      <PokemonForm onSubmitNewPokemon={onSubmitNewPokemon}/>
       <br />
-      <Search 
-        pokemonsArray={pokemonsArray} 
-        setPokemonsArray={setPokemonsArray} 
-        searchArr = {searchPokemonsArray}
-      />
+      <Search searchTerm={searchTerm} onHandleChange={onHandleChange}/>
       <br />
-      <PokemonCollection 
-        pokemonsArray={pokemonsArray} 
-      />
+      <PokemonCollection pokemon={searchedPokemonArr}/>
     </Container>
   );
 }

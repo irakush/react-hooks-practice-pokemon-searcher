@@ -1,26 +1,32 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Card } from "semantic-ui-react";
 
-function PokemonCard({ eachPokemon }) {
-  const [frontOrBack, setFrontOrBack] = useState(true)
+function PokemonCard( { poke }) { //obj de-structuring
 
-  function toggleFrontBack() {
-    setFrontOrBack(!frontOrBack)
+  // console.log(poke) //{}
+  const { name, sprites, hp } = poke
+  //const { keyname1, keyname2, keyname3 } = objectname (object de-structuring)
+
+  const [ showFront, setShowFront ] = useState(true)
+  
+  const handleClick = () => {
+    setShowFront(!showFront)
+    //setShowFront((prev) => !prev)
   }
 
   return (
-    <Card onClick={toggleFrontBack}>
+    <Card onClick = {handleClick}>
       <div>
         <div className="image">
-          <img src={frontOrBack ? eachPokemon.sprites.front : eachPokemon.sprites.back} alt="oh no!"  />
+          <img alt={name} src={showFront? sprites.front: sprites.back} />
         </div>
         <div className="content">
-          <div className="header">{eachPokemon.name}</div>
+          <div className="header">{name}</div>
         </div>
         <div className="extra content">
           <span>
             <i className="icon heartbeat red" />
-            {eachPokemon.hp}
+            {hp}
           </span>
         </div>
       </div>

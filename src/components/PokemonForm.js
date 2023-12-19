@@ -1,47 +1,50 @@
 import React, { useState } from "react";
 import { Form } from "semantic-ui-react";
 
-function PokemonForm({ pokemonsArray, setPokemonsArray }) {
-  // console.log(pokemonsArray)
-  const initObj = {
+function PokemonForm( { onSubmitNewPokemon }) {
+  
+  const initVal = {
     "name": "",
     "hp": 0,
-    "sprites": {
-      "front": "",
-      "back": ""
-    }
+    "frontUrl": "",
+    "backUrl": ""
   }
 
-  const [formData, setFormData] = useState(initObj)
+  const [ formData, setFormData ] =  useState(initVal)
 
-  function handleField(e) {
+  const handleChange = (e) => {
     const { name, value } = e.target
-    // const name = e.target.name
-    // const value = e.target.value
-
-    if (name === "frontUrl") {
-      setFormData({...formData, sprites:{...formData.sprites, front: value}})
-    } else if (name === "backUrl") {
-      setFormData({...formData, sprites:{...formData.sprites, back: value}})
-    } else {
-      setFormData({...formData, [name]:value})
-    }
+    // console.log(e.target.name, e.target.value)
+    //   setFormData({...formData, [e.target.name]: e.target.value})
+      // console.log(e.target.name, e.target.value)
+      setFormData({...formData, [name]: value})
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
+  console.log(formData)
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const newPokemon = {
+      name: formData.name,
+      hp: formData.hp,
+      sprites: {
+        front: formData.frontUrl,
+        back: formData.backUrl
+      }
+    }
+    
     fetch("http://localhost:3001/pokemon", {
       method: "POST",
       headers: {
-        "Content-Type":"application/json"
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(newPokemon)
     })
-      .then(res => res.json())
-      .then(resData => setPokemonsArray([ ...pokemonsArray, resData ]))
+    .then(response => response.json())
+    .then(newlyAddedPokemon => onSubmitNewPokemon(newlyAddedPokemon))
 
-    // setPokemonsArray([ ...pokemonsArray, formData ]) // optimistic
+    setFormData(initVal)
   }
 
   return (
@@ -51,37 +54,33 @@ function PokemonForm({ pokemonsArray, setPokemonsArray }) {
         onSubmit={handleSubmit}
       >
         <Form.Group widths="equal">
+          <Form.Input fluid 
+           label="Name" 
+           placeholder="Name" 
+           name="name" 
+           value={formData.name}
+           onChange={handleChange}/>
           <Form.Input 
-            fluid 
-            label="Name" 
-            placeholder="Name" 
-            name="name" 
-            onChange={handleField}
-            value={formData.name}
-          />
-          <Form.Input 
-            fluid 
-            label="hp" 
+            fluid label="hp" 
             placeholder="hp" 
             name="hp" 
-            onChange={handleField}
             value={formData.hp}
-          />
+            onChange={handleChange}/>
           <Form.Input
             fluid
             label="Front Image URL"
             placeholder="url"
             name="frontUrl"
-            onChange={handleField}
             value={formData.frontUrl}
+            onChange={handleChange}
           />
           <Form.Input
             fluid
             label="Back Image URL"
             placeholder="url"
             name="backUrl"
-            onChange={handleField}
             value={formData.backUrl}
+            onChange={handleChange}
           />
         </Form.Group>
         <Form.Button>Submit</Form.Button>

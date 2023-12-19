@@ -1,24 +1,14 @@
-import React, {useState} from "react";
+import React from "react";
 
-function Search({ setPokemonsArray, searchArr }) {
-
-  function handleSearch(e) {
-    const value = e.target.value
-
-    if (value != "") {
-       searchArr = searchArr.filter((eachPokemon) => {
-        return eachPokemon.name.includes(value)
-      })
-    } 
-
-    setPokemonsArray(searchArr)
-    // setPokemonsArray((prev) => searchArr)
-  }
+function Search({ searchTerm, onHandleChange }) {
 
   return (
     <div className="ui search">
       <div className="ui icon input">
-        <input className="prompt" onChange={handleSearch} />
+        <input 
+          className="prompt"
+          onChange = {onHandleChange}
+          value={searchTerm}/>
         <i className="search icon" />
       </div>
     </div>
