@@ -3,7 +3,6 @@ import PokemonPage from "./PokemonPage";
 
 function App() {
   
-
   return (
     <div className="App">
       <PokemonPage  />
