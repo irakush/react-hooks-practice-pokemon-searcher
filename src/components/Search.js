@@ -6,13 +6,13 @@ function Search({ setPokemonsArray, searchArr }) {
     const value = e.target.value
 
     if (value != "") {
-      searchArr = searchArr.filter((eachPokemon) => {
+       searchArr = searchArr.filter((eachPokemon) => {
         return eachPokemon.name.includes(value)
       })
     } 
 
-    setPokemonsArray((prev) => searchArr)
-    
+    setPokemonsArray(searchArr)
+    // setPokemonsArray((prev) => searchArr)
   }
 
   return (

@@ -15,8 +15,9 @@ function PokemonForm({ pokemonsArray, setPokemonsArray }) {
   const [formData, setFormData] = useState(initObj)
 
   function handleField(e) {
-    const name = e.target.name
-    const value = e.target.value
+    const { name, value } = e.target
+    // const name = e.target.name
+    // const value = e.target.value
 
     if (name === "frontUrl") {
       setFormData({...formData, sprites:{...formData.sprites, front: value}})

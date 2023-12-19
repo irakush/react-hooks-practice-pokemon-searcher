@@ -9,10 +9,10 @@ function PokemonCard({ eachPokemon }) {
   }
 
   return (
-    <Card>
+    <Card onClick={toggleFrontBack}>
       <div>
         <div className="image">
-          <img src={frontOrBack ? eachPokemon.sprites.front : eachPokemon.sprites.back} alt="oh no!" onClick={toggleFrontBack} />
+          <img src={frontOrBack ? eachPokemon.sprites.front : eachPokemon.sprites.back} alt="oh no!"  />
         </div>
         <div className="content">
           <div className="header">{eachPokemon.name}</div>
